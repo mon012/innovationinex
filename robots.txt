@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /wp-admin/
+Disallow: /wp-json/
+Disallow: /xmlrpc.php
+
+Sitemap: https://innovationinex.com/sitemap_index.xml
