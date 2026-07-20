@@ -1,0 +1,15 @@
+---
+const logos = [
+  { src: "/wp-content/uploads/2020/10/1200px-AGC_Logo.svg_.png", alt: "AGC" },
+  { src: "/wp-content/uploads/2020/10/1200px-Tostem_logo.svg_.png", alt: "Tostem" },
+  { src: "/wp-content/uploads/2020/10/gulf-energy-logo.png", alt: "Gulf Energy" },
+  { src: "/wp-content/uploads/2020/10/honda_logo3.png", alt: "Honda" },
+  { src: "/wp-content/uploads/2020/10/download.png", alt: "Customer logo" }
+];
+const loop = [...logos, ...logos];
+---
+<div class="marquee" aria-label="Selected customers">
+  <div class="marquee-track">
+    {loop.map((logo) => <span class="marquee-logo"><img src={logo.src} alt={logo.alt} loading="lazy" decoding="async" /></span>)}
+  </div>
+</div>

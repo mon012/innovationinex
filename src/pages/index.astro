@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Cta from "../components/Cta.astro";
+import Marquee from "../components/Marquee.astro";
+import MotionLayer from "../components/MotionLayer";
+import HorizontalAccordion from "../components/HorizontalAccordion";
+import { articles, solutions } from "../data/site";
+
+const reveal = "อากาศที่ดีไม่ควรถูกมองเพียงระบบที่อยู่หลังผนัง แต่ควรรู้สึกได้ผ่านทุกลมหายใจ ทุกกระบวนการ และทุกช่วงเวลาที่อยู่ในพื้นที่".split(" ");
+---
+<BaseLayout title="iNEX Innovation — Engineering Better Air" description="ออกแบบและพัฒนาระบบ Cleanroom, HVAC, Ventilation และคุณภาพอากาศสำหรับอุตสาหกรรม อาคาร และที่อยู่อาศัย">
+  <section class="hero">
+    <img class="hero-media" src="/assets/images/commercial-buildings-cleanroom.webp" alt="ระบบปรับอากาศภายในอาคารพาณิชย์" fetchpriority="high" />
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow" style="color:var(--aqua)">Air quality engineering</p>
+        <h1 class="display">Experience air quality beyond.</h1>
+        <p class="lede">เราออกแบบระบบอากาศให้ทุกพื้นที่ทำงานอย่างสมดุล และดีต่อผู้คนที่อยู่ภายใน</p>
+        <div class="button-row"><a class="button button--light" href="/solution/">สำรวจโซลูชัน</a><a class="button" style="border-color:rgba(255,255,255,.5)" href="/contact/">ปรึกษาวิศวกร</a></div>
+      </div>
+      <div class="hero-aside"><div class="hero-aside-line"></div><p>Cleanroom · HVAC · Ventilation<br />Design · Installation · Validation</p></div>
+    </div>
+  </section>
+
+  <Marquee />
+
+  <section class="chapter">
+    <div class="shell">
+      <p class="eyebrow">Systems that work together</p>
+      <h2 class="display display--medium">One Air System. Many Dimensions of Quality.</h2>
+      <p class="lede">จากพื้นที่ที่ต้องการควบคุมอย่างเข้มงวด ไปจนถึงบ้านที่ต้องการอากาศสดชื่น</p>
+      <div class="bento bento--home">
+        {solutions.map((item) => <a class="bento-card" href={item.href} data-enter><img src={item.image} alt="" loading="lazy" decoding="async" /><div class="bento-body"><h3>{item.title}</h3><p>{item.copy}</p></div></a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter reveal-section">
+    <div class="shell"><p class="reveal-copy" data-reveal-copy>{reveal.map((word) => <span class="reveal-word">{word} </span>)}</p></div>
+  </section>
+
+  <section class="chapter">
+    <div class="shell split">
+      <div class="split-sticky"><p class="eyebrow">From diagnosis to delivery</p><h2 class="display display--medium">คิดเป็นระบบ ทำงานกับความจริง</h2><p class="lede">ทุกโครงการเริ่มจากข้อมูลของพื้นที่และจบด้วยผลลัพธ์ที่ตรวจสอบได้</p></div>
+      <div class="story-list">
+        <article class="story" data-enter><div class="story-image" data-scale-fade><img src="/assets/images/commercial-interior-ventilation.webp" alt="พื้นที่ภายในอาคารพาณิชย์ที่ติดตั้งระบบปรับอากาศและระบายอากาศ" loading="lazy" decoding="async" /></div><h3>Understand</h3><p>สำรวจพื้นที่ วิเคราะห์ภาระ มลพิษ กระบวนการ และพฤติกรรมของผู้ใช้งานก่อนกำหนดระบบ</p></article>
+        <article class="story" data-enter><div class="story-image" data-scale-fade><img src="/wp-content/uploads/2021/07/ventilation-system.jpg" alt="ระบบระบายอากาศ" loading="lazy" decoding="async" /></div><h3>Engineer</h3><p>ออกแบบ air balance, filtration, pressure control และพลังงานให้เป็นองค์ประกอบเดียวกัน</p></article>
+        <article class="story" data-enter><div class="story-image" data-scale-fade><img src="/assets/images/hvac-validation-equipment.webp" alt="ชุดอุปกรณ์ HVAC และพัดลมระบายความร้อนสำหรับการตรวจสอบระบบ" loading="lazy" decoding="async" /></div><h3>Validate</h3><p>ทดสอบ ปรับสมดุล และยืนยันผลเพื่อให้ระบบที่ส่งมอบทำงานได้ตามเป้าหมายจริง</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" style="background:var(--mist)">
+    <div class="shell"><p class="eyebrow">Specialized capability</p><h2 class="display display--medium">ความเชี่ยวชาญที่ปรับเข้ากับพื้นที่</h2><HorizontalAccordion client:visible /></div>
+  </section>
+
+  <section class="chapter chapter--tight" style="background:var(--white)">
+    <div class="shell"><p class="eyebrow">Latest thinking</p><h2 class="display display--medium">อ่านอากาศให้ลึกกว่าเดิม</h2><div class="article-grid article-grid--two">{articles.slice(0,2).map((article) => <a class="article-card" href={`/${article.slug}/`}><div class="article-thumb"><img src={article.image} alt="" loading="lazy" decoding="async" /></div><h3>{article.title}</h3><p>{article.excerpt}</p></a>)}</div><div class="button-row"><a class="button button--ghost" href="/article/">ดูบทความทั้งหมด</a></div></div>
+  </section>
+
+  <Cta />
+  <MotionLayer client:load />
+</BaseLayout>

@@ -1,0 +1,105 @@
+---
+import { navigation } from "../data/site";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: "website" | "article";
+}
+
+const { title, description, image = "/wp-content/uploads/2021/07/cleanroom-class.jpg", type = "website" } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/wp-content/uploads/2020/10/cropped-Copy-of-iNEX-192x192.png" />
+    <meta property="og:locale" content="th_TH" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:site_name" content="iNEX Innovation" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-nav">
+      <nav class="nav-inner" aria-label="Primary navigation">
+        <a class="nav-logo" href="/" aria-label="iNEX home"><img src="/wp-content/uploads/2020/10/aaas.png" alt="iNEX" /></a>
+        <div class="nav-links" id="nav-links">
+          {navigation.filter((item) => item.href !== "/article/" && item.href !== "/contact/").map((item) => <a href={item.href}>{item.label}</a>)}
+          <a class="nav-cta" href="/contact/">Talk to an engineer</a>
+        </div>
+        <button class="nav-toggle" type="button" aria-controls="nav-links" aria-expanded="false" aria-label="Open navigation">Menu</button>
+      </nav>
+    </header>
+    <main class="page"><slot /></main>
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div class="footer-brand">
+          <a class="footer-logo" href="/" aria-label="iNEX home"><img src="/wp-content/uploads/2020/10/aaas.png" alt="iNEX" loading="lazy" decoding="async" /></a>
+          <p>ออกแบบและพัฒนาระบบคุณภาพอากาศสำหรับอุตสาหกรรม อาคารพาณิชย์ และที่อยู่อาศัย</p>
+        </div>
+        <div class="footer-col"><h3>Explore</h3><a href="/solution/">Solutions</a><a href="/article/">Insights</a><a href="/about/">Company</a></div>
+        <div class="footer-col"><h3>Solutions</h3><a href="/solution/commercial/">Commercial</a><a href="/solution/residential/">Residential</a></div>
+        <div class="footer-col"><h3>Information</h3><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></div>
+      </div>
+      <div class="shell footer-bottom"><span>© <span data-current-year>{new Date().getFullYear()}</span> ECO Value Power Co.,Ltd</span><span>Engineered for better air.</span></div>
+    </footer>
+    <script is:inline>
+      const toggle = document.querySelector('.nav-toggle');
+      const links = document.querySelector('.nav-links');
+      const menuItems = links ? [...links.querySelectorAll('a')] : [];
+      const setMenuState = (open, { restoreFocus = false } = {}) => {
+        if (!toggle || !links) return;
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+        toggle.textContent = open ? 'Close' : 'Menu';
+        links.setAttribute('data-open', String(open));
+        document.body.toggleAttribute('data-nav-open', open);
+        if (open) menuItems[0]?.focus();
+        if (!open && restoreFocus) toggle.focus();
+      };
+      toggle?.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        setMenuState(!open);
+      });
+      links?.addEventListener('click', (event) => {
+        if (event.target.closest('a')) setMenuState(false);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (toggle?.getAttribute('aria-expanded') !== 'true') return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setMenuState(false, { restoreFocus: true });
+          return;
+        }
+        if (event.key !== 'Tab' || !links) return;
+        const focusable = [toggle, ...menuItems];
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900 && toggle?.getAttribute('aria-expanded') === 'true') setMenuState(false);
+      });
+      const currentYear = document.querySelector('[data-current-year]');
+      if (currentYear) currentYear.textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>

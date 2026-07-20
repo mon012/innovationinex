@@ -1,0 +1,79 @@
+---
+import type { StandardPage } from "../data/pages";
+
+interface Props { page: StandardPage; }
+const { page } = Astro.props;
+const detail = page.detail!;
+---
+<section class="chapter solution-detail-intro">
+  <div class="shell solution-detail-lead">
+    <p class="eyebrow">Air quality engineering</p>
+    <h2 class="display display--medium">{page.intro}</h2>
+    <div class="solution-detail-lead-copy">{detail.lead.map((paragraph) => <p>{paragraph}</p>)}</div>
+  </div>
+</section>
+
+<section class="chapter solution-detail-features">
+  <div class="shell">
+    {detail.features.map((feature, index) => (
+      <article class:list={["solution-detail-feature", { "solution-detail-feature--reverse": index % 2 === 1 }]} data-enter>
+        <div class:list={["solution-detail-media", { "solution-detail-media--pair": feature.images.length > 1 }]}>
+          {feature.images.map((image) => <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />)}
+        </div>
+        <div class="solution-detail-copy">
+          <p class="eyebrow">{String(index + 1).padStart(2, "0")}</p>
+          <h2>{feature.heading}</h2>
+          {feature.body.map((paragraph) => <p>{paragraph}</p>)}
+          {feature.list && <ul>{feature.list.map((item) => <li>{item}</li>)}</ul>}
+          {feature.badge && <img class="solution-detail-badge" src={feature.badge.src} alt={feature.badge.alt} loading="lazy" decoding="async" />}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+{detail.gallery && (
+  <section class="chapter chapter--tight solution-gallery" style="background:var(--mist)">
+    <div class="shell">
+      <p class="eyebrow">Selected cleanroom work</p>
+      <h2 class="display display--medium">รายละเอียดจากพื้นที่ปฏิบัติงานจริง</h2>
+      <div class="solution-gallery-grid">{detail.gallery.map((image) => <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />)}</div>
+    </div>
+  </section>
+)}
+
+<section class="solution-video-cta">
+  <video autoplay muted loop playsinline preload="none" aria-hidden="true" data-lazy-video><source data-src={detail.video} /></video>
+  <div class="solution-video-shade"></div>
+  <div class="shell solution-video-copy">
+    <p class="eyebrow" style="color:var(--aqua)">Talk to our air design specialists</p>
+    <h2 class="display display--medium">ออกแบบระบบที่เหมาะกับพื้นที่ของคุณ</h2>
+    <p>สอบถามข้อมูลเพิ่มเติมกับทีมผู้เชี่ยวชาญของเรา เพื่อเลือกผลิตภัณฑ์และออกแบบระบบที่เหมาะสมที่สุดสำหรับคุณและองค์กร</p>
+    <a class="button button--light" href="/contact/">ติดต่อเรา</a>
+  </div>
+</section>
+
+<script>
+  const lazyVideos = document.querySelectorAll<HTMLVideoElement>('video[data-lazy-video]');
+  const loadVideo = (video: HTMLVideoElement) => {
+    if (video.dataset.loaded === 'true') return;
+    const source = video.querySelector<HTMLSourceElement>('source[data-src]');
+    if (!source?.dataset.src) return;
+    source.src = source.dataset.src;
+    video.dataset.loaded = 'true';
+    video.load();
+    void video.play().catch(() => {});
+  };
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        loadVideo(entry.target as HTMLVideoElement);
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '400px 0px' });
+    lazyVideos.forEach((video) => observer.observe(video));
+  } else {
+    lazyVideos.forEach(loadVideo);
+  }
+</script>
