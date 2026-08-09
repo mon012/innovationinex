@@ -1,5 +1,6 @@
 ---
 import type { StandardPage } from "../data/pages";
+import SiteImage from "./SiteImage.astro";
 
 interface Props { page: StandardPage; }
 const { page } = Astro.props;
@@ -18,14 +19,14 @@ const detail = page.detail!;
     {detail.features.map((feature, index) => (
       <article class:list={["solution-detail-feature", { "solution-detail-feature--reverse": index % 2 === 1 }]} data-enter>
         <div class:list={["solution-detail-media", { "solution-detail-media--pair": feature.images.length > 1 }]}>
-          {feature.images.map((image) => <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />)}
+          {feature.images.map((image) => <SiteImage src={image.src} alt={image.alt} width={1200} height={900} loading="lazy" decoding="async" />)}
         </div>
         <div class="solution-detail-copy">
           <p class="eyebrow">{String(index + 1).padStart(2, "0")}</p>
           <h2>{feature.heading}</h2>
           {feature.body.map((paragraph) => <p>{paragraph}</p>)}
           {feature.list && <ul>{feature.list.map((item) => <li>{item}</li>)}</ul>}
-          {feature.badge && <img class="solution-detail-badge" src={feature.badge.src} alt={feature.badge.alt} loading="lazy" decoding="async" />}
+          {feature.badge && <SiteImage class="solution-detail-badge" src={feature.badge.src} alt={feature.badge.alt} width={344} height={146} loading="lazy" decoding="async" />}
         </div>
       </article>
     ))}
@@ -37,7 +38,7 @@ const detail = page.detail!;
     <div class="shell">
       <p class="eyebrow">Selected cleanroom work</p>
       <h2 class="display display--medium">รายละเอียดจากพื้นที่ปฏิบัติงานจริง</h2>
-      <div class="solution-gallery-grid">{detail.gallery.map((image) => <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />)}</div>
+      <div class="solution-gallery-grid">{detail.gallery.map((image) => <SiteImage src={image.src} alt={image.alt} width={1200} height={900} loading="lazy" decoding="async" />)}</div>
     </div>
   </section>
 )}

@@ -1,5 +1,7 @@
 ---
 import { navigation } from "../data/site";
+import SiteImage from "../components/SiteImage.astro";
+import logoImage from "../assets/images/inex-logo.png";
 import "../styles/global.css";
 
 interface Props {
@@ -7,10 +9,13 @@ interface Props {
   description: string;
   image?: string;
   type?: "website" | "article";
+  robots?: string;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description, image = "/wp-content/uploads/2021/07/cleanroom-class.jpg", type = "website" } = Astro.props;
+const { title, description, image = "/wp-content/uploads/2021/07/cleanroom-class.jpg", type = "website", robots, schema } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
 ---
 <!doctype html>
 <html lang="th">
@@ -19,6 +24,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/wp-content/uploads/2020/10/cropped-Copy-of-iNEX-192x192.png" />
     <meta property="og:locale" content="th_TH" />
@@ -29,12 +35,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:image" content={new URL(image, Astro.site)} />
     <meta property="og:site_name" content="iNEX Innovation" />
     <meta name="twitter:card" content="summary_large_image" />
+    {schemas.map((item) => <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />)}
     <title>{title}</title>
   </head>
   <body>
     <header class="site-nav">
       <nav class="nav-inner" aria-label="Primary navigation">
-        <a class="nav-logo" href="/" aria-label="iNEX home"><img src="/wp-content/uploads/2020/10/aaas.png" alt="iNEX" /></a>
+        <a class="nav-logo" href="/" aria-label="iNEX home"><SiteImage src={logoImage} alt="iNEX" width={240} widths={[120, 240]} sizes="(max-width: 900px) 120px, 160px" loading="eager" decoding="async" /></a>
         <div class="nav-links" id="nav-links">
           {navigation.filter((item) => item.href !== "/article/" && item.href !== "/contact/").map((item) => <a href={item.href}>{item.label}</a>)}
           <a class="nav-cta" href="/contact/">Talk to an engineer</a>
@@ -46,7 +53,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <footer class="site-footer">
       <div class="shell footer-grid">
         <div class="footer-brand">
-          <a class="footer-logo" href="/" aria-label="iNEX home"><img src="/wp-content/uploads/2020/10/aaas.png" alt="iNEX" loading="lazy" decoding="async" /></a>
+          <a class="footer-logo" href="/" aria-label="iNEX home"><SiteImage src={logoImage} alt="iNEX" width={240} widths={[120, 240]} sizes="(max-width: 900px) 120px, 160px" loading="lazy" decoding="async" /></a>
           <p>ออกแบบและพัฒนาระบบคุณภาพอากาศสำหรับอุตสาหกรรม อาคารพาณิชย์ และที่อยู่อาศัย</p>
         </div>
         <div class="footer-col"><h3>Explore</h3><a href="/solution/">Solutions</a><a href="/article/">Insights</a><a href="/about/">Company</a></div>

@@ -3,14 +3,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Cta from "../components/Cta.astro";
 import Marquee from "../components/Marquee.astro";
 import MotionLayer from "../components/MotionLayer";
-import HorizontalAccordion from "../components/HorizontalAccordion";
+import HorizontalAccordion from "../components/HorizontalAccordion.astro";
+import SiteImage from "../components/SiteImage.astro";
+import heroImage from "../assets/images/commercial-buildings-cleanroom.webp";
 import { articles, solutions } from "../data/site";
 
 const reveal = "อากาศที่ดีไม่ควรถูกมองเพียงระบบที่อยู่หลังผนัง แต่ควรรู้สึกได้ผ่านทุกลมหายใจ ทุกกระบวนการ และทุกช่วงเวลาที่อยู่ในพื้นที่".split(" ");
+const origin = Astro.site!.origin;
+const businessId = `${origin}/#business`;
+const schema = [
+  {
+    "@context": "https://schema.org", "@type": "WebSite", "@id": `${origin}/#website`,
+    url: `${origin}/`, name: "iNEX Innovation", inLanguage: "th-TH", publisher: { "@id": businessId }
+  },
+  {
+    "@context": "https://schema.org", "@type": "LocalBusiness", "@id": businessId,
+    name: "ECO Value Power Co., Ltd.", url: `${origin}/`,
+    image: `${origin}/wp-content/uploads/2020/10/aaas.png`, telephone: "+66-98-198-9649",
+    email: "chatchawal@innovationinex.com",
+    address: { "@type": "PostalAddress", streetAddress: "19/241 ซอยสุคนธสวัสดิ์ 29 ถนนประดิษฐ์มนูธรรม ลาดพร้าว", addressLocality: "กรุงเทพฯ", postalCode: "10230", addressCountry: "TH" }
+  }
+];
 ---
-<BaseLayout title="iNEX Innovation — Engineering Better Air" description="ออกแบบและพัฒนาระบบ Cleanroom, HVAC, Ventilation และคุณภาพอากาศสำหรับอุตสาหกรรม อาคาร และที่อยู่อาศัย">
+<BaseLayout title="iNEX Innovation — Engineering Better Air" description="ออกแบบและพัฒนาระบบ Cleanroom, HVAC, Ventilation และคุณภาพอากาศสำหรับอุตสาหกรรม อาคาร และที่อยู่อาศัย" schema={schema}>
   <section class="hero">
-    <img class="hero-media" src="/assets/images/commercial-buildings-cleanroom.webp" alt="ระบบปรับอากาศภายในอาคารพาณิชย์" fetchpriority="high" />
+    <SiteImage class="hero-media" src={heroImage} alt="ระบบปรับอากาศภายในอาคารพาณิชย์" widths={[640, 960, 1280, 1600, 1920]} sizes="100vw" loading="eager" fetchpriority="high" decoding="async" />
     <div class="shell hero-grid">
       <div class="hero-copy">
         <p class="eyebrow" style="color:var(--aqua)">Air quality engineering</p>
@@ -30,7 +47,7 @@ const reveal = "อากาศที่ดีไม่ควรถูกมอ�
       <h2 class="display display--medium">One Air System. Many Dimensions of Quality.</h2>
       <p class="lede">จากพื้นที่ที่ต้องการควบคุมอย่างเข้มงวด ไปจนถึงบ้านที่ต้องการอากาศสดชื่น</p>
       <div class="bento bento--home">
-        {solutions.map((item) => <a class="bento-card" href={item.href} data-enter><img src={item.image} alt="" loading="lazy" decoding="async" /><div class="bento-body"><h3>{item.title}</h3><p>{item.copy}</p></div></a>)}
+        {solutions.map((item) => <a class="bento-card" href={item.href} data-enter><SiteImage src={item.image} alt={item.title} width={1600} height={1000} loading="lazy" decoding="async" /><div class="bento-body"><h3>{item.title}</h3><p>{item.copy}</p></div></a>)}
       </div>
     </div>
   </section>
@@ -43,19 +60,19 @@ const reveal = "อากาศที่ดีไม่ควรถูกมอ�
     <div class="shell split">
       <div class="split-sticky"><p class="eyebrow">From diagnosis to delivery</p><h2 class="display display--medium">คิดเป็นระบบ ทำงานกับความจริง</h2><p class="lede">ทุกโครงการเริ่มจากข้อมูลของพื้นที่และจบด้วยผลลัพธ์ที่ตรวจสอบได้</p></div>
       <div class="story-list">
-        <article class="story" data-enter><div class="story-image" data-scale-fade><img src="/assets/images/commercial-interior-ventilation.webp" alt="พื้นที่ภายในอาคารพาณิชย์ที่ติดตั้งระบบปรับอากาศและระบายอากาศ" loading="lazy" decoding="async" /></div><h3>Understand</h3><p>สำรวจพื้นที่ วิเคราะห์ภาระ มลพิษ กระบวนการ และพฤติกรรมของผู้ใช้งานก่อนกำหนดระบบ</p></article>
-        <article class="story" data-enter><div class="story-image" data-scale-fade><img src="/wp-content/uploads/2021/07/ventilation-system.jpg" alt="ระบบระบายอากาศ" loading="lazy" decoding="async" /></div><h3>Engineer</h3><p>ออกแบบ air balance, filtration, pressure control และพลังงานให้เป็นองค์ประกอบเดียวกัน</p></article>
-        <article class="story" data-enter><div class="story-image" data-scale-fade><img src="/assets/images/hvac-validation-equipment.webp" alt="ชุดอุปกรณ์ HVAC และพัดลมระบายความร้อนสำหรับการตรวจสอบระบบ" loading="lazy" decoding="async" /></div><h3>Validate</h3><p>ทดสอบ ปรับสมดุล และยืนยันผลเพื่อให้ระบบที่ส่งมอบทำงานได้ตามเป้าหมายจริง</p></article>
+        <article class="story" data-enter><div class="story-image" data-scale-fade><SiteImage src="/assets/images/commercial-interior-ventilation.webp" alt="พื้นที่ภายในอาคารพาณิชย์ที่ติดตั้งระบบปรับอากาศและระบายอากาศ" width={1600} height={1000} loading="lazy" decoding="async" /></div><h3>Understand</h3><p>สำรวจพื้นที่ วิเคราะห์ภาระ มลพิษ กระบวนการ และพฤติกรรมของผู้ใช้งานก่อนกำหนดระบบ</p></article>
+        <article class="story" data-enter><div class="story-image" data-scale-fade><SiteImage src="/wp-content/uploads/2021/07/ventilation-system.jpg" alt="ระบบระบายอากาศ" width={1200} height={750} loading="lazy" decoding="async" /></div><h3>Engineer</h3><p>ออกแบบ air balance, filtration, pressure control และพลังงานให้เป็นองค์ประกอบเดียวกัน</p></article>
+        <article class="story" data-enter><div class="story-image" data-scale-fade><SiteImage src="/assets/images/hvac-validation-equipment.webp" alt="ชุดอุปกรณ์ HVAC และพัดลมระบายความร้อนสำหรับการตรวจสอบระบบ" width={1600} height={1000} loading="lazy" decoding="async" /></div><h3>Validate</h3><p>ทดสอบ ปรับสมดุล และยืนยันผลเพื่อให้ระบบที่ส่งมอบทำงานได้ตามเป้าหมายจริง</p></article>
       </div>
     </div>
   </section>
 
   <section class="chapter" style="background:var(--mist)">
-    <div class="shell"><p class="eyebrow">Specialized capability</p><h2 class="display display--medium">ความเชี่ยวชาญที่ปรับเข้ากับพื้นที่</h2><HorizontalAccordion client:visible /></div>
+    <div class="shell"><p class="eyebrow">Specialized capability</p><h2 class="display display--medium">ความเชี่ยวชาญที่ปรับเข้ากับพื้นที่</h2><HorizontalAccordion /></div>
   </section>
 
   <section class="chapter chapter--tight" style="background:var(--white)">
-    <div class="shell"><p class="eyebrow">Latest thinking</p><h2 class="display display--medium">อ่านอากาศให้ลึกกว่าเดิม</h2><div class="article-grid article-grid--two">{articles.slice(0,2).map((article) => <a class="article-card" href={`/${article.slug}/`}><div class="article-thumb"><img src={article.image} alt="" loading="lazy" decoding="async" /></div><h3>{article.title}</h3><p>{article.excerpt}</p></a>)}</div><div class="button-row"><a class="button button--ghost" href="/article/">ดูบทความทั้งหมด</a></div></div>
+    <div class="shell"><p class="eyebrow">Latest thinking</p><h2 class="display display--medium">อ่านอากาศให้ลึกกว่าเดิม</h2><div class="article-grid article-grid--two">{articles.slice(0,2).map((article) => <a class="article-card" href={`/${article.slug}/`}><div class="article-thumb"><SiteImage src={article.image} alt={article.title} width={1600} height={1000} loading="lazy" decoding="async" /></div><h3>{article.title}</h3><p>{article.excerpt}</p></a>)}</div><div class="button-row"><a class="button button--ghost" href="/article/">ดูบทความทั้งหมด</a></div></div>
   </section>
 
   <Cta />

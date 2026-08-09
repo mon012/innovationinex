@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteImage from "../components/SiteImage.astro";
+---
+<BaseLayout title="ไม่พบหน้าที่ต้องการ — iNEX" description="ไม่พบหน้าที่คุณกำลังค้นหา กรุณากลับสู่หน้าแรกหรือเลือกดูโซลูชันของ iNEX" robots="noindex, follow">
+  <section class="page-hero error-hero">
+    <SiteImage src="/wp-content/uploads/2021/07/ventilation-system.jpg" alt="ระบบระบายอากาศของ iNEX" width={1600} height={900} fetchpriority="high" decoding="async" />
+    <div class="shell">
+      <p class="eyebrow" style="color:var(--aqua)">404 · Page not found</p>
+      <h1 class="display">ไม่พบหน้าที่คุณกำลังค้นหา</h1>
+      <p class="lede">ลิงก์นี้อาจถูกย้าย เปลี่ยนชื่อ หรือไม่มีอยู่แล้ว</p>
+      <div class="button-row"><a class="button button--light" href="/">กลับหน้าแรก</a><a class="button" href="/solution/">ดูโซลูชัน</a></div>
+    </div>
+  </section>
+</BaseLayout>

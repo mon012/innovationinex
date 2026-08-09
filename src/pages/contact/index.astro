@@ -2,9 +2,16 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Marquee from "../../components/Marquee.astro";
 import MotionLayer from "../../components/MotionLayer";
+import SiteImage from "../../components/SiteImage.astro";
+const origin = Astro.site!.origin;
+const schema = {
+  "@context": "https://schema.org", "@type": "ContactPage", "@id": `${origin}/contact/#page`,
+  url: `${origin}/contact/`, name: "Contact iNEX", description: "ช่องทางติดต่อทีม iNEX สำหรับโครงการ Cleanroom, HVAC, Ventilation และคุณภาพอากาศ",
+  about: { "@id": `${origin}/#business` }
+};
 ---
-<BaseLayout title="Contact iNEX — Start a Better Air Project" description="ปรึกษาทีม iNEX เกี่ยวกับระบบ Cleanroom, HVAC, Ventilation และคุณภาพอากาศ">
-  <section class="page-hero"><img src="/wp-content/uploads/2021/07/hvac-system-building.jpg" alt="" /><div class="shell"><p class="eyebrow" style="color:var(--aqua)">Start a conversation</p><h1 class="display">อากาศที่ดี เริ่มจากโจทย์ที่ชัดเจน</h1><p class="lede">เล่าให้เราฟังถึงพื้นที่ มาตรฐาน หรือปัญหาที่ต้องการแก้ ทีมวิศวกรของเราจะช่วยวางแนวทางต่อไป</p></div></section>
+<BaseLayout title="Contact iNEX — Start a Better Air Project" description="ปรึกษาทีม iNEX เกี่ยวกับระบบ Cleanroom, HVAC, Ventilation และคุณภาพอากาศ" schema={schema}>
+  <section class="page-hero"><SiteImage src="/wp-content/uploads/2021/07/hvac-system-building.jpg" alt="ระบบ HVAC สำหรับอาคาร" width={1600} height={900} fetchpriority="high" decoding="async" /><div class="shell"><p class="eyebrow" style="color:var(--aqua)">Start a conversation</p><h1 class="display">อากาศที่ดี เริ่มจากโจทย์ที่ชัดเจน</h1><p class="lede">เล่าให้เราฟังถึงพื้นที่ มาตรฐาน หรือปัญหาที่ต้องการแก้ ทีมวิศวกรของเราจะช่วยวางแนวทางต่อไป</p></div></section>
   <section class="chapter">
     <div class="shell contact-grid">
       <div><h2 class="display display--medium">Contact us</h2><div class="contact-details"><div><h3>Office</h3><p>บริษัท ECO Value Power จำกัด<br />19/241 ซอยสุคนธสวัสดิ์ 29<br />ถนนประดิษฐ์มนูธรรม ลาดพร้าว<br />กรุงเทพฯ 10230</p></div><div><h3>Phone</h3><a href="tel:+66981989649">Mobile: +66(0)98-198-9649</a><a href="tel:+6625531318">Tel: +66(0)2553-1318</a></div><div><h3>Email</h3><a href="mailto:chatchawal@innovationinex.com">chatchawal@innovationinex.com</a></div><div><h3>Project enquiry</h3><p>โปรดระบุประเภทพื้นที่ ขนาด และเป้าหมายของระบบ เพื่อให้ทีมตอบกลับได้ตรงประเด็น</p></div></div></div>

@@ -1,0 +1,29 @@
+---
+import SiteImage from "./SiteImage.astro";
+
+const items = [
+  { title: "Cleanroom", copy: "ควบคุมอนุภาค ความดัน อุณหภูมิ และความชื้นให้สัมพันธ์กับมาตรฐานและกระบวนการผลิต", image: "/wp-content/uploads/2021/07/cleanroom-class.jpg" },
+  { title: "HVAC Engineering", copy: "ออกแบบระบบที่สมดุลระหว่างคุณภาพอากาศ ความสบาย และประสิทธิภาพพลังงาน", image: "/wp-content/uploads/2021/07/hvac-system-building.jpg" },
+  { title: "Ventilation", copy: "จัดการความร้อน กลิ่น ฝุ่น และมลพิษจากแหล่งกำเนิดด้วยทิศทางลมที่คำนวณได้", image: "/wp-content/uploads/2021/07/ventilation.jpg" }
+];
+---
+<div class="accordion" data-accordion>
+  {items.map((item, index) => (
+    <button class="accordion-item" data-active={index === 0 ? "true" : "false"} type="button">
+      <SiteImage src={item.image} alt={item.title} width={1200} height={750} loading="lazy" decoding="async" />
+      <span class="accordion-shade"></span>
+      <span class="accordion-copy"><h3>{item.title}</h3><p>{item.copy}</p></span>
+    </button>
+  ))}
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-accordion]').forEach((accordion) => {
+    const items = [...accordion.querySelectorAll<HTMLElement>('.accordion-item')];
+    const activate = (active: HTMLElement) => items.forEach((item) => item.dataset.active = String(item === active));
+    items.forEach((item) => {
+      item.addEventListener('mouseenter', () => activate(item));
+      item.addEventListener('focus', () => activate(item));
+      item.addEventListener('click', () => activate(item));
+    });
+  });
+</script>

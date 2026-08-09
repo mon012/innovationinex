@@ -1,0 +1,45 @@
+---
+import SiteImage from "./SiteImage.astro";
+
+interface Props { html: string; }
+const { html } = Astro.props;
+
+type Part = { type: "html"; value: string } | {
+  type: "image";
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  loading: "eager" | "lazy";
+  decoding: "sync" | "async" | "auto";
+  className?: string;
+};
+
+const parts: Part[] = [];
+const imagePattern = /<img\b([^>]*)>/gi;
+let cursor = 0;
+for (const match of html.matchAll(imagePattern)) {
+  const index = match.index ?? 0;
+  if (index > cursor) parts.push({ type: "html", value: html.slice(cursor, index) });
+  const attributes = Object.fromEntries(
+    [...match[1].matchAll(/([:\w-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'))?/g)]
+      .map((attribute) => [attribute[1].toLowerCase(), attribute[2] ?? attribute[3] ?? ""])
+  );
+  parts.push({
+    type: "image",
+    src: attributes.src,
+    alt: attributes.alt,
+    width: Number(attributes.width) || 1200,
+    height: Number(attributes.height) || 800,
+    loading: attributes.loading === "eager" ? "eager" : "lazy",
+    decoding: attributes.decoding === "sync" || attributes.decoding === "auto" ? attributes.decoding : "async",
+    className: attributes.class || undefined
+  });
+  cursor = index + match[0].length;
+}
+if (cursor < html.length) parts.push({ type: "html", value: html.slice(cursor) });
+---
+{parts.map((part) => part.type === "html"
+  ? <Fragment set:html={part.value} />
+  : <SiteImage src={part.src} alt={part.alt} width={part.width} height={part.height} loading={part.loading} decoding={part.decoding} class={part.className} />
+)}

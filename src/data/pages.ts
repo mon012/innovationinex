@@ -23,7 +23,7 @@ export type StandardPage = {
 
 export const standardPages: StandardPage[] = [
   {
-    slug: "about", mode: "standard", title: "About iNEX — Air Quality Engineering", display: "คุณภาพอากาศที่ดี คือโครงสร้างของชีวิตที่ดี", description: "รู้จัก ECO Value Power Co., Ltd", image: "/wp-content/uploads/2024/04/IMG_2266.webp", intro: "เราพัฒนาระบบอากาศภายใต้แนวคิด iNEX โดยเชื่อมโยงวิศวกรรม สภาพแวดล้อม และผู้คนเข้าด้วยกัน",
+    slug: "about", mode: "standard", title: "About iNEX — Air Quality Engineering", display: "คุณภาพอากาศที่ดี คือโครงสร้างของชีวิตที่ดี", description: "รู้จัก ECO Value Power และแนวคิดวิศวกรรมของ iNEX สำหรับระบบ Cleanroom, HVAC, Ventilation และคุณภาพอากาศ", image: "/wp-content/uploads/2024/04/IMG_2266.webp", intro: "เราพัฒนาระบบอากาศภายใต้แนวคิด iNEX โดยเชื่อมโยงวิศวกรรม สภาพแวดล้อม และผู้คนเข้าด้วยกัน",
     sections: [
       { heading: "ECO Value Power Co., Ltd", body: ["เราเชื่อมั่นว่าคุณภาพและการไหลเวียนที่ดีของอากาศ ช่วยเพิ่มประสิทธิภาพในการทำงาน และความน่าอยู่ให้กับที่อยู่อาศัย", "เราจึงทุ่มเทและใส่ใจทุกรายละเอียดในการเลือกใช้เทคโนโลยี และสร้างผลงานบนพื้นฐานของหลักวิศวกรรม เพื่อให้ลูกค้ามั่นใจและได้รับความปลอดภัยสูงสุด"] },
       { heading: "Vision & Mission", body: ["มุ่งสู่การเป็นองค์กรที่น่าเชื่อถือและประสบความสำเร็จในการให้บริการโซลูชันระบบ Cleanroom แบบครบวงจร", "วิสัยทัศน์ที่ชัดเจนอธิบายสิ่งที่เราเป็น และสิ่งที่เรามุ่งมั่นทำให้สำเร็จ เพื่อผลงานที่มีคุณภาพและการเติบโตขององค์กรอย่างยั่งยืน"] },
@@ -64,14 +64,14 @@ export const standardPages: StandardPage[] = [
         }
       ],
       gallery: [
-        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.14.56-AM.png", alt: "ผลงาน Cleanroom ของ iNEX 1" },
-        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.14.37-AM.png", alt: "ผลงาน Cleanroom ของ iNEX 2" },
-        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.15.32-AM.png", alt: "ผลงาน Cleanroom ของ iNEX 3" },
-        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.14.24-AM.png", alt: "ผลงาน Cleanroom ของ iNEX 4" },
-        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.14.12-AM.png", alt: "ผลงาน Cleanroom ของ iNEX 5" },
-        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.15.13-AM.png", alt: "ผลงาน Cleanroom ของ iNEX 6" }
+        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.14.56-AM.avif", alt: "ผลงาน Cleanroom ของ iNEX 1" },
+        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.14.37-AM.avif", alt: "ผลงาน Cleanroom ของ iNEX 2" },
+        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.15.32-AM.avif", alt: "ผลงาน Cleanroom ของ iNEX 3" },
+        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.14.24-AM.avif", alt: "ผลงาน Cleanroom ของ iNEX 4" },
+        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.14.12-AM.avif", alt: "ผลงาน Cleanroom ของ iNEX 5" },
+        { src: "/wp-content/uploads/2021/02/iNEX-Innovation-Profile-companyCleanroom-Work-copy-copy.pdf-2564-02-03-at-10.15.13-AM.avif", alt: "ผลงาน Cleanroom ของ iNEX 6" }
       ],
-      video: "/wp-content/uploads/2021/01/innovationinex-commercial.mov"
+      video: "/assets/media/innovationinex-commercial.mp4"
     }
   },
   {
@@ -95,11 +95,10 @@ export const standardPages: StandardPage[] = [
           images: [{ src: "/wp-content/uploads/2020/10/pexels-vlada-karpovich-4617255-scaled.jpg", alt: "พื้นที่นั่งเล่นที่มีระบบไหลเวียนอากาศ" }]
         }
       ],
-      video: "/wp-content/uploads/2021/01/innovationinex-resident.mov"
+      video: "/assets/media/innovationinex-resident.mp4"
     }
   },
   { slug: "article", mode: "listing", title: "Air Quality Insights — iNEX", display: "Making Sense of Air.", description: "บทความและมุมมองเกี่ยวกับ Cleanroom, HVAC, Ventilation และคุณภาพอากาศ", image: "/wp-content/uploads/2021/07/cleanroom-class.jpg", intro: "สำรวจหลักการ เทคโนโลยี และแนวทางออกแบบระบบอากาศสำหรับพื้นที่จริง" },
-  { slug: "category/engineering", mode: "taxonomy", title: "Engineering Insights — iNEX", display: "วิศวกรรมอากาศ จากหลักการสู่พื้นที่จริง", description: "รวมบทความด้านวิศวกรรมระบบอากาศจาก iNEX", image: "/wp-content/uploads/2021/07/hvac-system.jpg", intro: "บทความด้าน HVAC, Cleanroom, Ventilation และการควบคุมคุณภาพอากาศ" },
   {
     slug: "privacy", mode: "legal", title: "Privacy Policy — iNEX", display: "นโยบายความเป็นส่วนตัว", description: "ประกาศความเป็นส่วนตัวของบริษัท ECO Value Power จำกัด สำหรับผู้ใช้งานเว็บไซต์ iNEX", image: "/wp-content/uploads/2021/07/ventilation.jpg", intro: "ปรับปรุงล่าสุด 20 กรกฎาคม 2569",
     sections: [
@@ -124,5 +123,3 @@ export const standardPages: StandardPage[] = [
     ]
   }
 ];
-
-export const tags = ["air", "cleanroom", "filter", "hepa", "hvac", "seminar", "webinar"];

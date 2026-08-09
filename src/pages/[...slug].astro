@@ -3,16 +3,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Cta from "../components/Cta.astro";
 import Marquee from "../components/Marquee.astro";
 import MotionLayer from "../components/MotionLayer";
-import HorizontalAccordion from "../components/HorizontalAccordion";
+import HorizontalAccordion from "../components/HorizontalAccordion.astro";
 import SolutionDetail from "../components/SolutionDetail.astro";
+import SiteImage from "../components/SiteImage.astro";
+import ArticleContent from "../components/ArticleContent.astro";
 import { articles, solutions, type Article } from "../data/site";
-import { standardPages, tags, type StandardPage } from "../data/pages";
+import { standardPages, type StandardPage } from "../data/pages";
 
 export function getStaticPaths() {
   const standard = standardPages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
   const articlePaths = articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
-  const tagPaths = tags.map((tag) => ({ params: { slug: `tag/${tag}` }, props: { page: { slug: `tag/${tag}`, mode: "taxonomy", title: `${tag.toUpperCase()} Insights — iNEX`, display: `เรื่องน่ารู้เกี่ยวกับ ${tag.toUpperCase()}`, description: `บทความที่เกี่ยวข้องกับ ${tag} และคุณภาพอากาศ`, image: "/wp-content/uploads/2021/07/cleanroom-class.jpg", intro: "รวมเนื้อหาที่เกี่ยวข้องจากคลังความรู้ของ iNEX" } as StandardPage } }));
-  return [...standard, ...articlePaths, ...tagPaths];
+  return [...standard, ...articlePaths];
 }
 
 interface Props { page?: StandardPage; article?: Article; }
@@ -20,31 +21,48 @@ const { page, article } = Astro.props;
 const title = article ? `${article.title} — iNEX` : page!.title;
 const description = article?.excerpt ?? page!.description;
 const image = article?.image ?? page!.image;
-const articleContentHtml = article?.contentHtml.replace(
+const articleContentHtml = article?.contentHtml.replace(/<img([^>]*?)\salt(?=\s|>)/g, `<img$1 alt="${article!.title.replaceAll('"', '&quot;')}"`).replace(
   '<a href="/cleanroom-class/">/cleanroom-class/</a>สิ่งนี้',
   '<a href="/cleanroom-class/">Cleanroom</a> สิ่งนี้'
 );
+const origin = Astro.site!.origin;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const schema = article ? {
+  "@context": "https://schema.org", "@type": "Article", "@id": `${url}#article`,
+  headline: article.title, description: article.excerpt, image: new URL(article.image, Astro.site).href,
+  datePublished: article.published, dateModified: article.published, inLanguage: "th-TH",
+  author: { "@type": "Organization", name: "iNEX Engineering Team" },
+  publisher: { "@id": `${origin}/#business` }, mainEntityOfPage: url
+} : page?.detail ? {
+  "@context": "https://schema.org", "@type": "Service", "@id": `${url}#service`,
+  name: page.display, description: page.description, url,
+  provider: { "@id": `${origin}/#business` }
+} : page?.mode === "listing" ? {
+  "@context": "https://schema.org", "@type": "CollectionPage", "@id": `${url}#collection`,
+  name: page.display, description: page.description, url,
+  mainEntity: { "@type": "ItemList", itemListElement: articles.map((item, index) => ({ "@type": "ListItem", position: index + 1, url: `${origin}/${item.slug}/`, name: item.title })) }
+} : undefined;
 ---
-<BaseLayout title={title} description={description} image={image} type={article ? "article" : "website"}>
+<BaseLayout title={title} description={description} image={image} type={article ? "article" : "website"} schema={schema}>
   {article ? (
     <>
-      <section class="page-hero"><img src={article.image} alt="" /><div class="shell"><p class="eyebrow" style="color:var(--aqua)">Air quality insight</p><h1 class="display">{article.title}</h1><p class="lede">{article.excerpt}</p></div></section>
-      <section class="chapter"><div class="shell article-layout"><aside class="article-aside"><p>Published<br /><strong>{article.published}</strong></p><p>iNEX Engineering Team</p></aside><article class="prose" set:html={articleContentHtml} /></div></section>
-      <section class="chapter chapter--tight" style="background:var(--mist)"><div class="shell"><p class="eyebrow">Continue exploring</p><h2 class="display display--medium">มองระบบอากาศให้ครบทั้งภาพ</h2><div class="article-grid">{articles.filter((item) => item.slug !== article.slug).slice(0,3).map((item) => <a class="article-card" href={`/${item.slug}/`}><div class="article-thumb"><img src={item.image} alt="" loading="lazy" decoding="async" /></div><h3>{item.title}</h3><p>{item.excerpt}</p></a>)}</div></div></section>
+      <section class="page-hero"><SiteImage src={article.image} alt={article.title} width={1600} height={900} fetchpriority="high" decoding="async" /><div class="shell"><p class="eyebrow" style="color:var(--aqua)">Air quality insight</p><h1 class="display">{article.title}</h1><p class="lede">{article.excerpt}</p></div></section>
+      <section class="chapter"><div class="shell article-layout"><aside class="article-aside"><p>Published<br /><strong>{article.published}</strong></p><p>iNEX Engineering Team</p></aside><article class="prose"><ArticleContent html={articleContentHtml!} /></article></div></section>
+      <section class="chapter chapter--tight" style="background:var(--mist)"><div class="shell"><p class="eyebrow">Continue exploring</p><h2 class="display display--medium">มองระบบอากาศให้ครบทั้งภาพ</h2><div class="article-grid">{articles.filter((item) => item.slug !== article.slug).slice(0,3).map((item) => <a class="article-card" href={`/${item.slug}/`}><div class="article-thumb"><SiteImage src={item.image} alt={item.title} width={1600} height={1000} loading="lazy" decoding="async" /></div><h3>{item.title}</h3><p>{item.excerpt}</p></a>)}</div></div></section>
     </>
   ) : (
     <>
-      <section class="page-hero"><img src={page!.image} alt="" /><div class="shell"><p class="eyebrow" style="color:var(--aqua)">{page!.mode === "legal" ? "Information" : "Engineering better air"}</p><h1 class="display">{page!.display}</h1>{page!.intro && <p class="lede">{page!.intro}</p>}</div></section>
+      <section class="page-hero"><SiteImage src={page!.image} alt={page!.display} width={1600} height={900} fetchpriority="high" decoding="async" /><div class="shell"><p class="eyebrow" style="color:var(--aqua)">{page!.mode === "legal" ? "Information" : "Engineering better air"}</p><h1 class="display">{page!.display}</h1>{page!.intro && <p class="lede">{page!.intro}</p>}</div></section>
       {(page!.mode === "listing" || page!.mode === "taxonomy") ? (
-        <section class="chapter"><div class="shell"><p class="eyebrow">Knowledge library</p><div class="article-grid">{articles.map((item) => <a class="article-card" href={`/${item.slug}/`} data-enter><div class="article-thumb"><img src={item.image} alt="" loading="lazy" decoding="async" /></div><h3>{item.title}</h3><p>{item.excerpt}</p></a>)}</div></div></section>
+        <section class="chapter"><div class="shell"><p class="eyebrow">Knowledge library</p><div class="article-grid">{articles.map((item) => <a class="article-card" href={`/${item.slug}/`} data-enter><div class="article-thumb"><SiteImage src={item.image} alt={item.title} width={1600} height={1000} loading="lazy" decoding="async" /></div><h3>{item.title}</h3><p>{item.excerpt}</p></a>)}</div></div></section>
       ) : page!.detail ? (
         <SolutionDetail page={page!} />
       ) : (
         <>
-          {page!.slug === "solution" && <section class="chapter"><div class="shell"><p class="eyebrow">Built around your environment</p><h2 class="display display--medium">เลือกจากโจทย์ ไม่ใช่จากรายการอุปกรณ์</h2><div class="bento bento--solutions">{[...solutions, { title: "Talk to us", copy: "เริ่มต้นจากข้อมูลของพื้นที่", href: "/contact/", image: "/wp-content/uploads/2021/07/ventilation.jpg" }].map((item) => <a class="bento-card" href={item.href}><img src={item.image} alt="" loading="lazy" decoding="async" /><div class="bento-body"><h3>{item.title}</h3><p>{item.copy}</p></div></a>)}</div></div></section>}
+          {page!.slug === "solution" && <section class="chapter"><div class="shell"><p class="eyebrow">Built around your environment</p><h2 class="display display--medium">เลือกจากโจทย์ ไม่ใช่จากรายการอุปกรณ์</h2><div class="bento bento--solutions">{[...solutions, { title: "Talk to us", copy: "เริ่มต้นจากข้อมูลของพื้นที่", href: "/contact/", image: "/wp-content/uploads/2021/07/ventilation.jpg" }].map((item) => <a class="bento-card" href={item.href}><SiteImage src={item.image} alt={item.title} width={1600} height={1000} loading="lazy" decoding="async" /><div class="bento-body"><h3>{item.title}</h3><p>{item.copy}</p></div></a>)}</div></div></section>}
           <section class="chapter"><div class="shell article-layout"><aside class="article-aside"><p>{page!.description}</p></aside><article class="prose">{page!.sections?.map((section) => <section><h2>{section.heading}</h2>{section.body.map((paragraph) => <p>{paragraph}</p>)}</section>)}</article></div></section>
           {page!.slug === "about" && <section class="chapter chapter--tight company-profile" style="background:var(--mist)"><div class="shell"><p class="eyebrow">Company profile</p><h2 class="display display--medium">แนวคิดและขอบเขตงานของเรา</h2><div class="company-profile-frame"><iframe src="https://www.scribd.com/embeds/515754843/content?start_page=1&view_mode=slideshow&access_key=key-tk5URNaWdi3KC2TbHkFD" title="ECO Value Power company profile" loading="lazy" allowfullscreen></iframe></div><a class="button button--ghost" href="https://www.scribd.com/embeds/515754843/content?start_page=1&view_mode=slideshow&access_key=key-tk5URNaWdi3KC2TbHkFD" target="_blank" rel="noreferrer noopener">เปิด Company Profile</a></div></section>}
-          {page!.mode === "standard" && <section class="chapter" style="background:var(--mist)"><div class="shell"><p class="eyebrow">Integrated capability</p><h2 class="display display--medium">ออกแบบให้ทุกส่วนทำงานร่วมกัน</h2><HorizontalAccordion client:visible /></div></section>}
+          {page!.mode === "standard" && <section class="chapter" style="background:var(--mist)"><div class="shell"><p class="eyebrow">Integrated capability</p><h2 class="display display--medium">ออกแบบให้ทุกส่วนทำงานร่วมกัน</h2><HorizontalAccordion /></div></section>}
         </>
       )}
     </>
