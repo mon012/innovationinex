@@ -11,17 +11,28 @@ interface Props {
   type?: "website" | "article";
   robots?: string;
   schema?: Record<string, unknown> | Record<string, unknown>[];
+  breadcrumbs?: { name: string; url: string }[];
 }
 
-const { title, description, image = "/wp-content/uploads/2021/07/cleanroom-class.jpg", type = "website", robots, schema } = Astro.props;
+const { title, description, image = "/wp-content/uploads/2021/07/cleanroom-class.jpg", type = "website", robots, schema, breadcrumbs } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+const ogImageUrl = new URL(image, Astro.site);
+if (breadcrumbs?.length) {
+  const trail = [{ name: "Home", url: "/" }, ...breadcrumbs];
+  schemas.push({
+    "@context": "https://schema.org", "@type": "BreadcrumbList",
+    itemListElement: trail.map((item, index) => ({
+      "@type": "ListItem", position: index + 1, name: item.name, item: new URL(item.url, Astro.site).href
+    }))
+  });
+}
 ---
 <!doctype html>
 <html lang="th">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     {robots && <meta name="robots" content={robots} />}
@@ -32,9 +43,12 @@ const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:site_name" content="iNEX Innovation" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
     {schemas.map((item) => <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />)}
     <title>{title}</title>
   </head>

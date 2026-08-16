@@ -27,6 +27,18 @@ const articleContentHtml = article?.contentHtml.replace(/<img([^>]*?)\salt(?=\s|
 );
 const origin = Astro.site!.origin;
 const url = new URL(Astro.url.pathname, Astro.site).href;
+const breadcrumbLabels: Record<string, string> = {
+  about: "About", solution: "Solutions", "solution/commercial": "Commercial",
+  "solution/residential": "Residential", article: "Insights", privacy: "Privacy Policy", terms: "Terms & Conditions"
+};
+const breadcrumbs = article
+  ? [{ name: "Insights", url: "/article/" }, { name: article.title, url: `/${article.slug}/` }]
+  : page!.slug.split("/").reduce<{ name: string; url: string }[]>((trail, _part, index, parts) => {
+      const path = parts.slice(0, index + 1).join("/");
+      const label = breadcrumbLabels[path];
+      if (label) trail.push({ name: label, url: `/${path}/` });
+      return trail;
+    }, []);
 const schema = article ? {
   "@context": "https://schema.org", "@type": "Article", "@id": `${url}#article`,
   headline: article.title, description: article.excerpt, image: new URL(article.image, Astro.site).href,
@@ -43,7 +55,7 @@ const schema = article ? {
   mainEntity: { "@type": "ItemList", itemListElement: articles.map((item, index) => ({ "@type": "ListItem", position: index + 1, url: `${origin}/${item.slug}/`, name: item.title })) }
 } : undefined;
 ---
-<BaseLayout title={title} description={description} image={image} type={article ? "article" : "website"} schema={schema}>
+<BaseLayout title={title} description={description} image={image} type={article ? "article" : "website"} schema={schema} breadcrumbs={breadcrumbs}>
   {article ? (
     <>
       <section class="page-hero"><SiteImage src={article.image} alt={article.title} width={1600} height={900} fetchpriority="high" decoding="async" /><div class="shell"><p class="eyebrow" style="color:var(--aqua)">Air quality insight</p><h1 class="display">{article.title}</h1><p class="lede">{article.excerpt}</p></div></section>
