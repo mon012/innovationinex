@@ -1,8 +1,16 @@
 ---
 import { Image } from "astro:assets";
 import type { ComponentProps } from "astro/types";
+import { resolveImage } from "../utils/images";
 
 type Props = ComponentProps<typeof Image>;
-const props = Astro.props;
+const props = Astro.props as Record<string, any>;
+const local = typeof props.src === "string" ? resolveImage(props.src) : undefined;
+let imageProps = props;
+if (local) {
+  // Keep the source aspect ratio: drop the hard-coded height and never upscale.
+  const { height: _height, width, ...rest } = props;
+  imageProps = { ...rest, src: local, width: Math.min(Number(width) || local.width, local.width) };
+}
 ---
-<Image {...props} />
+<Image {...(imageProps as Props)} />

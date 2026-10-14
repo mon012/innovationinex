@@ -7,6 +7,7 @@ import HorizontalAccordion from "../components/HorizontalAccordion.astro";
 import SiteImage from "../components/SiteImage.astro";
 import heroImage from "../assets/images/commercial-buildings-cleanroom.webp";
 import { articles, solutions } from "../data/site";
+import { imageUrl } from "../utils/images";
 
 const reveal = "อากาศที่ดีไม่ควรถูกมองเพียงระบบที่อยู่หลังผนัง แต่ควรรู้สึกได้ผ่านทุกลมหายใจ ทุกกระบวนการ และทุกช่วงเวลาที่อยู่ในพื้นที่".split(" ");
 const origin = Astro.site!.origin;
@@ -19,7 +20,7 @@ const schema = [
   {
     "@context": "https://schema.org", "@type": "LocalBusiness", "@id": businessId,
     name: "ECO Value Power Co., Ltd.", url: `${origin}/`,
-    image: `${origin}/wp-content/uploads/2020/10/aaas.png`, telephone: "+66-98-198-9649",
+    image: await imageUrl("/wp-content/uploads/2020/10/aaas.png", Astro.site!), telephone: "+66-98-198-9649",
     email: "chatchawal@innovationinex.com",
     address: { "@type": "PostalAddress", streetAddress: "19/241 ซอยสุคนธสวัสดิ์ 29 ถนนประดิษฐ์มนูธรรม ลาดพร้าว", addressLocality: "กรุงเทพฯ", postalCode: "10230", addressCountry: "TH" }
   }

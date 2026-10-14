@@ -9,6 +9,7 @@ import SiteImage from "../components/SiteImage.astro";
 import ArticleContent from "../components/ArticleContent.astro";
 import { articles, solutions, type Article } from "../data/site";
 import { standardPages, type StandardPage } from "../data/pages";
+import { imageUrl } from "../utils/images";
 
 export function getStaticPaths() {
   const standard = standardPages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
@@ -24,6 +25,10 @@ const image = article?.image ?? page!.image;
 const articleContentHtml = article?.contentHtml.replace(/<img([^>]*?)\salt(?=\s|>)/g, `<img$1 alt="${article!.title.replaceAll('"', '&quot;')}"`).replace(
   '<a href="/cleanroom-class/">/cleanroom-class/</a>สิ่งนี้',
   '<a href="/cleanroom-class/">Cleanroom</a> สิ่งนี้'
+).replace(
+  // interactive airflow figure right under this heading
+  '<h2><strong>หลักการไหลเวียนอากาศในห้องคลีนรูม</strong></h2>',
+  '<h2><strong>หลักการไหลเวียนอากาศในห้องคลีนรูม</strong></h2><!--figure:cleanroom-hvac-->'
 );
 const origin = Astro.site!.origin;
 const url = new URL(Astro.url.pathname, Astro.site).href;
@@ -41,7 +46,7 @@ const breadcrumbs = article
     }, []);
 const schema = article ? {
   "@context": "https://schema.org", "@type": "Article", "@id": `${url}#article`,
-  headline: article.title, description: article.excerpt, image: new URL(article.image, Astro.site).href,
+  headline: article.title, description: article.excerpt, image: await imageUrl(article.image, Astro.site!),
   datePublished: article.published, dateModified: article.published, inLanguage: "th-TH",
   author: { "@type": "Organization", name: "iNEX Engineering Team" },
   publisher: { "@id": `${origin}/#business` }, mainEntityOfPage: url
