@@ -909,7 +909,7 @@ const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
 const gauss = () => Math.sqrt(-2 * Math.log(rand() + 1e-12)) * Math.cos(2 * Math.PI * rand());
 
 const parcels = [];
-LOOPS.forEach((loop, i) => { for (let j = 0; j < 4; j++) parcels.push({ loop, t: ((j + rand() * 0.9) / 4) * loop.length, f: [rand() * 6.28, rand() * 6.28, rand() * 6.28], a: 0.6 + rand() * 0.8 }); });
+LOOPS.forEach((loop) => { for (let j = 0; j < 4; j++) parcels.push({ loop, t: ((j + rand() * 0.9) / 4) * loop.length, f: [rand() * 6.28, rand() * 6.28, rand() * 6.28], a: 0.6 + rand() * 0.8 }); });
 const MAKEUP = (() => {
   const pts = makeupPath(); const out = [];
   for (let i = 0; i < pts.length - 1; i++) { const a = pts[i], b = pts[i + 1]; const n = Math.ceil(Math.hypot(b[0]-a[0], b[1]-a[1], b[2]-a[2]) / 1); for (let s = 0; s < n; s++) out.push(a.map((v, k2) => v + (b[k2] - v) * s / n)); }
