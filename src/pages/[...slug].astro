@@ -47,7 +47,7 @@ const breadcrumbs = article
 const schema = article ? {
   "@context": "https://schema.org", "@type": "Article", "@id": `${url}#article`,
   headline: article.title, description, image: await imageUrl(article.image, Astro.site!),
-  datePublished: article.published, dateModified: article.published, inLanguage: "th-TH",
+  datePublished: article.published, dateModified: article.updated ?? article.published, inLanguage: "th-TH",
   author: { "@type": "Organization", name: "iNEX Engineering Team" },
   publisher: { "@id": `${origin}/#business` }, mainEntityOfPage: url
 } : page?.detail ? {
@@ -64,7 +64,7 @@ const schema = article ? {
   {article ? (
     <>
       <section class="page-hero"><SiteImage src={article.image} alt={article.title} width={1600} height={900} fetchpriority="high" decoding="async" /><div class="shell"><p class="eyebrow" style="color:var(--aqua)">Air quality insight</p><h1 class="display">{article.title}</h1><p class="lede">{article.excerpt}</p></div></section>
-      <section class="chapter"><div class="shell article-layout"><aside class="article-aside"><p>Published<br /><strong>{article.published}</strong></p><p>iNEX Engineering Team</p></aside><article class="prose"><ArticleContent html={articleContentHtml!} /></article></div></section>
+      <section class="chapter"><div class="shell article-layout"><aside class="article-aside"><p>Updated<br /><strong>{article.updated ?? article.published}</strong></p><p>iNEX Engineering Team</p></aside><article class="prose"><ArticleContent html={articleContentHtml!} /></article></div></section>
       <section class="chapter chapter--tight" style="background:var(--mist)"><div class="shell"><p class="eyebrow">Continue exploring</p><h2 class="display display--medium">มองระบบอากาศให้ครบทั้งภาพ</h2><div class="article-grid">{articles.filter((item) => item.slug !== article.slug).slice(0,3).map((item) => <a class="article-card" href={`/${item.slug}/`}><div class="article-thumb"><SiteImage src={item.image} alt={item.title} width={1600} height={1000} loading="lazy" decoding="async" /></div><h3>{item.title}</h3><p>{item.excerpt}</p></a>)}</div></div></section>
     </>
   ) : (

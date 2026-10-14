@@ -131,7 +131,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .article-layout { display: grid; grid-template-columns: minmax(12rem,.38fr) minmax(0,1fr); gap: clamp(3rem,8vw,9rem); }
 .article-aside { position: sticky; top: 8rem; align-self: start; color: var(--ink-soft); font-size: .85rem; }
-.prose { max-width: 50rem; }
+.prose { min-width: 0; max-width: 50rem; }
 .prose h2 { margin: 6rem 0 1.5rem; font-family: var(--display); font-size: clamp(2.2rem, 4.5vw, 4.8rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.18; }
 .prose h2:first-child { margin-top: 0; }
 .prose h3 { margin: 3.5rem 0 1rem; font-family: var(--display); font-size: clamp(1.65rem, 2.8vw, 2.8rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.28; }
@@ -148,6 +148,12 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .prose figcaption { margin-top: .7rem; color: var(--ink-soft); font-size: .82rem; line-height: 1.55; }
 .prose iframe { display: block; width: 100%; height: auto; aspect-ratio: 16/9; border: 0; border-radius: 1rem; background: var(--deep); }
 .prose .article-content-group:empty { display: none; }
+.prose .table-scroll { margin: 2rem 0 2.5rem; overflow-x: auto; border: 1px solid var(--line); border-radius: 1rem; background: var(--white); }
+.prose table { width: 100%; min-width: 34rem; border-collapse: collapse; color: var(--ink-soft); font-size: .95rem; line-height: 1.6; }
+.prose th, .prose td { padding: .8rem 1rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.prose thead th { background: var(--mist); color: var(--ink); font-weight: 650; }
+.prose tbody th { color: var(--ink); font-weight: 600; white-space: nowrap; }
+.prose tbody tr:last-child > * { border-bottom: 0; }
 .prose .article-embed { margin: 2rem 0; }
 .prose .article-embed a { display: inline-flex; align-items: center; min-height: 2.8rem; padding: .65rem 1rem; border: 1px solid rgba(7,30,35,.2); border-radius: 999px; text-decoration: none; }
 .company-profile-frame { overflow: hidden; margin: 3rem 0 1.5rem; border-radius: 1rem; background: var(--white); box-shadow: 0 24px 60px rgba(7,30,35,.1); }
