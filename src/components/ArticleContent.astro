@@ -1,10 +1,11 @@
 ---
 import SiteImage from "./SiteImage.astro";
+import CleanroomHvac from "./figures/CleanroomHvac.astro";
 
 interface Props { html: string; }
 const { html } = Astro.props;
 
-type Part = { type: "html"; value: string } | {
+type Part = { type: "html"; value: string } | { type: "figure"; name: string } | {
   type: "image";
   src: string;
   alt: string;
@@ -16,11 +17,16 @@ type Part = { type: "html"; value: string } | {
 };
 
 const parts: Part[] = [];
-const imagePattern = /<img\b([^>]*)>/gi;
+const imagePattern = /<img\b([^>]*)>|<!--figure:([\w-]+)-->/gi;
 let cursor = 0;
 for (const match of html.matchAll(imagePattern)) {
   const index = match.index ?? 0;
   if (index > cursor) parts.push({ type: "html", value: html.slice(cursor, index) });
+  if (match[2]) {
+    parts.push({ type: "figure", name: match[2] });
+    cursor = index + match[0].length;
+    continue;
+  }
   const attributes = Object.fromEntries(
     [...match[1].matchAll(/([:\w-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'))?/g)]
       .map((attribute) => [attribute[1].toLowerCase(), attribute[2] ?? attribute[3] ?? ""])
@@ -41,5 +47,7 @@ if (cursor < html.length) parts.push({ type: "html", value: html.slice(cursor) }
 ---
 {parts.map((part) => part.type === "html"
   ? <Fragment set:html={part.value} />
+  : part.type === "figure"
+  ? (part.name === "cleanroom-hvac" ? <CleanroomHvac /> : null)
   : <SiteImage src={part.src} alt={part.alt} width={part.width} height={part.height} loading={part.loading} decoding={part.decoding} class={part.className} />
 )}
