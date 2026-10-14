@@ -20,7 +20,7 @@ export function getStaticPaths() {
 interface Props { page?: StandardPage; article?: Article; }
 const { page, article } = Astro.props;
 const title = article ? `${article.title} — iNEX` : page!.title;
-const description = article?.excerpt ?? page!.description;
+const description = article ? article.description ?? article.excerpt : page!.description;
 const image = article?.image ?? page!.image;
 const articleContentHtml = article?.contentHtml.replace(/<img([^>]*?)\salt(?=\s|>)/g, `<img$1 alt="${article!.title.replaceAll('"', '&quot;')}"`).replace(
   '<a href="/cleanroom-class/">/cleanroom-class/</a>สิ่งนี้',
@@ -46,7 +46,7 @@ const breadcrumbs = article
     }, []);
 const schema = article ? {
   "@context": "https://schema.org", "@type": "Article", "@id": `${url}#article`,
-  headline: article.title, description: article.excerpt, image: await imageUrl(article.image, Astro.site!),
+  headline: article.title, description, image: await imageUrl(article.image, Astro.site!),
   datePublished: article.published, dateModified: article.published, inLanguage: "th-TH",
   author: { "@type": "Organization", name: "iNEX Engineering Team" },
   publisher: { "@id": `${origin}/#business` }, mainEntityOfPage: url

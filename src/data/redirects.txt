@@ -5,3 +5,4 @@
 /hvac-calculator/ /solution/ 301
 /hvac-load-calculator/ /solution/ 301
 /pm25-today/ /article/ 301
+/sitemap.xml /sitemap-index.xml 301

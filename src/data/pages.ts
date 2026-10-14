@@ -31,14 +31,14 @@ export const standardPages: StandardPage[] = [
     ]
   },
   {
-    slug: "solution", mode: "standard", title: "Air Quality Solutions — iNEX", display: "Air Systems Built for Real Spaces.", description: "โซลูชัน Cleanroom, HVAC, Ventilation และอากาศสะอาดสำหรับอุตสาหกรรม อาคาร และบ้าน", image: "/wp-content/uploads/2021/07/ventilation-system.jpg", intro: "ไม่มีสูตรเดียวสำหรับทุกพื้นที่ เราเริ่มจากการทำความเข้าใจความเสี่ยง การใช้งาน และผลลัพธ์ที่ต้องการ ตามหลักวิศวกรรม",
+    slug: "solution", mode: "standard", title: "โซลูชันระบบอากาศ Cleanroom, HVAC และ Ventilation — iNEX", display: "Air Systems Built for Real Spaces.", description: "โซลูชันระบบอากาศครบวงจร ทั้งห้องคลีนรูม ระบบ HVAC ระบบระบายอากาศ และอากาศสะอาด ออกแบบตามความเสี่ยงและการใช้งานจริงของโรงงาน อาคารพาณิชย์ และบ้าน", image: "/wp-content/uploads/2021/07/ventilation-system.jpg", intro: "ไม่มีสูตรเดียวสำหรับทุกพื้นที่ เราเริ่มจากการทำความเข้าใจความเสี่ยง การใช้งาน และผลลัพธ์ที่ต้องการ ตามหลักวิศวกรรม",
     sections: [
       { heading: "A complete air pathway", body: ["เราพิจารณาเส้นทางอากาศทั้งระบบ ตั้งแต่ fresh air intake การปรับสภาวะ การกรอง การกระจายอากาศ ไปจนถึง exhaust", "แนวคิดแบบ whole-system ช่วยลดจุดอ่อนที่มักเกิดเมื่อแต่ละองค์ประกอบถูกออกแบบแยกจากกัน"] },
       { heading: "Designed to perform", body: ["ทุกแนวทางเชื่อมโยงกับค่าที่ตรวจสอบได้ เช่น อัตราการเปลี่ยนอากาศ ความดัน อุณหภูมิ ความชื้น และคุณภาพอนุภาค"] }
     ]
   },
   {
-    slug: "solution/commercial", mode: "standard", title: "Commercial Solution — iNEX", display: "Commercial Solution", description: "เทคโนโลยี Clean Room และระบบ HVAC สำหรับโรงงาน อาคารพาณิชย์ และพื้นที่ควบคุม", image: "/wp-content/uploads/2020/10/pexels-jimmy-chan-998499-scaled.jpg", intro: "ออกแบบคุณภาพอากาศ ให้เหมาะกับทุกประเภทอาคาร",
+    slug: "solution/commercial", mode: "standard", title: "ระบบ Clean Room และ HVAC สำหรับโรงงานและอาคาร — iNEX", display: "Commercial Solution", description: "ออกแบบระบบ Clean Room และ HVAC สำหรับโรงงาน โรงพยาบาล อาคารพาณิชย์ และพื้นที่ควบคุม ให้ได้คุณภาพอากาศ อุณหภูมิ และความดันตามมาตรฐานที่งานต้องการ", image: "/wp-content/uploads/2020/10/pexels-jimmy-chan-998499-scaled.jpg", intro: "ออกแบบคุณภาพอากาศ ให้เหมาะกับทุกประเภทอาคาร",
     detail: {
       lead: ["iNEX เชี่ยวชาญเทคโนโลยี Clean Room และระบบ HVAC ด้วยประสบการณ์กว่า 20 ปี ช่วยให้เราเข้าใจส่วนสำคัญต่างๆ เพื่อสร้างและปรับปรุงพื้นที่โรงงานให้มีสภาวะที่เหมาะสมตามหลักวิศวกรรม และความต้องการของบริษัท"],
       features: [
@@ -75,7 +75,7 @@ export const standardPages: StandardPage[] = [
     }
   },
   {
-    slug: "solution/residential", mode: "standard", title: "Residential Solutions — iNEX", display: "Residential Solutions", description: "ระบบคุณภาพอากาศและการควบคุมอุณหภูมิสำหรับบ้านและที่อยู่อาศัย", image: "/wp-content/uploads/2020/10/pexels-alex-1732414-scaled.jpg", intro: "ออกแบบคุณภาพอากาศ เพื่อทุกพื้นที่ของการอยู่อาศัย",
+    slug: "solution/residential", mode: "standard", title: "ระบบอากาศสะอาดและเติมอากาศสำหรับบ้าน — iNEX", display: "Residential Solutions", description: "ระบบคุณภาพอากาศและการควบคุมอุณหภูมิสำหรับบ้านและที่อยู่อาศัย", image: "/wp-content/uploads/2020/10/pexels-alex-1732414-scaled.jpg", intro: "ออกแบบคุณภาพอากาศ เพื่อทุกพื้นที่ของการอยู่อาศัย",
     detail: {
       lead: ["คุณภาพอากาศที่ดีและอุณหภูมิที่เหมาะสม ช่วยให้คุณและครอบครัวใช้ชีวิตอย่างปลอดภัย และมีความสุข", "ทีมวิศวกรของเราออกแบบระบบและเลือกใช้เทคโนโลยีล่าสุด เพื่อควบคุมอุณหภูมิและการไหลเวียนของอากาศภายในอาคารที่พักอาศัย ให้เหมาะกับความต้องการของคุณ"],
       features: [
@@ -98,7 +98,7 @@ export const standardPages: StandardPage[] = [
       video: "/assets/media/innovationinex-resident.mp4"
     }
   },
-  { slug: "article", mode: "listing", title: "Air Quality Insights — iNEX", display: "Making Sense of Air.", description: "บทความและมุมมองเกี่ยวกับ Cleanroom, HVAC, Ventilation และคุณภาพอากาศ", image: "/wp-content/uploads/2021/07/cleanroom-class.jpg", intro: "สำรวจหลักการ เทคโนโลยี และแนวทางออกแบบระบบอากาศสำหรับพื้นที่จริง" },
+  { slug: "article", mode: "listing", title: "บทความ Cleanroom, HVAC และการระบายอากาศ — iNEX", display: "Making Sense of Air.", description: "บทความและมุมมองเกี่ยวกับ Cleanroom, HVAC, Ventilation และคุณภาพอากาศ", image: "/wp-content/uploads/2021/07/cleanroom-class.jpg", intro: "สำรวจหลักการ เทคโนโลยี และแนวทางออกแบบระบบอากาศสำหรับพื้นที่จริง" },
   {
     slug: "privacy", mode: "legal", title: "Privacy Policy — iNEX", display: "นโยบายความเป็นส่วนตัว", description: "ประกาศความเป็นส่วนตัวของบริษัท ECO Value Power จำกัด สำหรับผู้ใช้งานเว็บไซต์ iNEX", image: "/wp-content/uploads/2021/07/ventilation.jpg", intro: "ปรับปรุงล่าสุด 20 กรกฎาคม 2569",
     sections: [
