@@ -77,11 +77,11 @@ if (breadcrumbs?.length) {
       </div>
       <div class="shell footer-bottom"><span>© <span data-current-year>{new Date().getFullYear()}</span> ECO Value Power Co.,Ltd</span><span>Engineered for better air.</span></div>
     </footer>
-    <script is:inline>
-      const toggle = document.querySelector('.nav-toggle');
+    <script>
+      const toggle = document.querySelector<HTMLElement>('.nav-toggle');
       const links = document.querySelector('.nav-links');
-      const menuItems = links ? [...links.querySelectorAll('a')] : [];
-      const setMenuState = (open, { restoreFocus = false } = {}) => {
+      const menuItems = links ? [...links.querySelectorAll<HTMLElement>('a')] : [];
+      const setMenuState = (open: boolean, { restoreFocus = false } = {}) => {
         if (!toggle || !links) return;
         toggle.setAttribute('aria-expanded', String(open));
         toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
@@ -96,7 +96,7 @@ if (breadcrumbs?.length) {
         setMenuState(!open);
       });
       links?.addEventListener('click', (event) => {
-        if (event.target.closest('a')) setMenuState(false);
+        if ((event.target as Element).closest('a')) setMenuState(false);
       });
       document.addEventListener('keydown', (event) => {
         if (toggle?.getAttribute('aria-expanded') !== 'true') return;
@@ -106,7 +106,7 @@ if (breadcrumbs?.length) {
           return;
         }
         if (event.key !== 'Tab' || !links) return;
-        const focusable = [toggle, ...menuItems];
+        const focusable = [toggle, ...menuItems].filter((el): el is HTMLElement => el !== null);
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (event.shiftKey && document.activeElement === first) {
